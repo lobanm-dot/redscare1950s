@@ -375,6 +375,7 @@
         <h2>Subject File: <span id="s-id">#0000</span></h2>
         
         <div class="suspect-photo">
+          <img id="s-photo" src="" alt="Suspect" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="this.style.display='none'; document.getElementById('s-icon').style.display='inline';" />
           <span id="s-icon">👤</span>
         </div>
 
@@ -437,7 +438,8 @@
 
   <script>
     // --- Data Pools ---
-    const firstNames = ["Arthur", "Betty", "Charles", "Dorothy", "Edward", "Florence", "George", "Helen", "Irving", "Josephine", "Karl", "Lucille", "Walter", "Margaret"];
+    const maleFirstNames = ["Arthur", "Charles", "Edward", "George", "Irving", "Karl", "Walter", "John", "William", "James", "Robert"];
+    const femaleFirstNames = ["Betty", "Dorothy", "Florence", "Helen", "Josephine", "Lucille", "Margaret", "Mary", "Ruth", "Shirley", "Alice"];
     const lastNames = ["Smith", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Wilson", "Martinez", "Anderson", "Taylor", "Thomas", "Moore", "Ivanov"];
     const jobs = ["Factory Worker", "Teacher", "Clerk", "Engineer", "Journalist", "Mechanic", "Baker", "Accountant", "Librarian"];
     const safeBelongings = ["Bus pass", "Apple", "Spectacles", "Pack of cigarettes", "Pocket watch", "Family photograph", "Umbrella", "Standard briefcase", "Loyalty Pin"];
@@ -501,6 +503,8 @@
     const stampEl = document.getElementById("stamp");
     const startModal = document.getElementById("start-modal");
     const gameOverModal = document.getElementById("game-over-modal");
+    const sPhotoEl = document.getElementById("s-photo");
+    const sIconEl = document.getElementById("s-icon");
 
     // --- Logic ---
     function getRandomInt(min, max) {
@@ -512,12 +516,18 @@
     }
 
     function generateSuspect() {
+      const isMale = Math.random() > 0.5;
+      const genderStr = isMale ? "male" : "female";
+      const firstName = isMale ? getRandomItem(maleFirstNames) : getRandomItem(femaleFirstNames);
+      const imgNum = getRandomInt(1, 5); // Assumes you have images 1 through 5. Change '5' if you have more!
+
       // Base attributes
       const suspect = {
         id: "#" + getRandomInt(1000, 9999),
-        name: `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`,
+        name: `${firstName} ${getRandomItem(lastNames)}`,
         age: getRandomInt(20, 65),
         job: getRandomItem(jobs),
+        imageSrc: `${genderStr}${imgNum}.png`,
         missedOath: false,
         hasForeignMedia: false,
         isUnionMember: false,
@@ -595,6 +605,10 @@
     }
 
     function renderSuspect(suspect) {
+      sPhotoEl.src = suspect.imageSrc;
+      sPhotoEl.style.display = "block";
+      sIconEl.style.display = "none";
+      
       sIdEl.innerText = suspect.id;
       sNameEl.innerText = suspect.name;
       sAgeEl.innerText = suspect.age;
