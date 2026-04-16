@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Scare: Loyalty Lockdown</title>
+  <style>
+    :root {
+      --bg: #08101f;
+      --panel: #121b33;
+      --panel2: #1b2748;
+      --panel3: #0f1730;
+      --text: #f3f6ff;
+      --muted: #b6c2e3;
+      --accent: #ff5c5c;
+      --accent2: #ffd166;
+      --good: #61d095;
+      --bad: #ef476f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.6;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* CRT Scanline effect */
+    body::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 999;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: var(--panel2);
+      padding: 15px 25px;
+      border-radius: 8px;
+      border-bottom: 4px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .strikes { color: var(--bad); }
+    .score { color: var(--good); }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background-color: var(--panel);
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      border: 1px solid var(--panel3);
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--accent2);
+      border-bottom: 1px solid var(--panel2);
+      padding-bottom: 5px;
+    }
+
+    /* Rulebook styles */
+    .rulebook {
+      border-left: 4px solid var(--accent2);
+    }
+    
+    .rulebook ul {
+      list-style-type: none;
+    }
+
+    .rulebook li {
+      margin-bottom: 15px;
+      background-color: var(--panel3);
+      padding: 10px;
+      border-radius: 4px;
+      border-left: 2px solid var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* File styles */
+    .file {
+      border-top: 4px solid var(--muted);
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .suspect-photo {
+      width: 120px;
+      height: 140px;
+      background-color: var(--panel3);
+      border: 2px solid var(--muted);
+      float: right;
+      margin: 0 0 15px 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--muted);
+      font-size: 3rem;
+    }
+
+    .data-row {
+      margin-bottom: 10px;
+      display: flex;
+      border-bottom: 1px dotted var(--panel2);
+    }
+
+    .data-label {
+      width: 150px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .data-value {
+      font-weight: bold;
+      flex-grow: 1;
+    }
+
+    .notes-section {
+      margin-top: 20px;
+      background-color: var(--panel3);
+      padding: 15px;
+      border-radius: 4px;
+      flex-grow: 1;
+    }
+
+    .notes-section h3 {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .notes-list {
+      list-style-type: square;
+      margin-left: 20px;
+    }
+
+    .notes-list li {
+      margin-bottom: 5px;
+      color: var(--accent2);
+    }
+
+    .transcript-section {
+      margin-top: 15px;
+      background-color: #0c1222;
+      padding: 15px;
+      border-radius: 4px;
+      border-left: 3px solid var(--muted);
+      font-family: 'Courier New', Courier, monospace;
+      flex-grow: 1;
+    }
+
+    .transcript-section h3 {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .transcript-text {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    button {
+      flex: 1;
+      padding: 15px;
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    }
+
+    button:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .btn-clear {
+      background-color: var(--good);
+      color: var(--bg);
+    }
+
+    .btn-clear:hover {
+      background-color: #7af0b1;
+    }
+
+    .btn-detain {
+      background-color: var(--bad);
+      color: var(--text);
+    }
+
+    .btn-detain:hover {
+      background-color: #ff5c81;
+    }
+
+    /* Stamp Animation */
+    .stamp {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg) scale(2);
+      font-size: 4rem;
+      font-weight: bold;
+      border: 8px solid;
+      padding: 10px 20px;
+      border-radius: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 10;
+    }
+
+    .stamp.show {
+      transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+      opacity: 1;
+    }
+
+    .stamp-cleared {
+      color: var(--good);
+      border-color: var(--good);
+    }
+
+    .stamp-detained {
+      color: var(--bad);
+      border-color: var(--bad);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(8, 16, 31, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background: var(--panel);
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+      border: 2px solid var(--accent);
+      max-width: 500px;
+      box-shadow: 0 0 30px rgba(255, 92, 92, 0.3);
+    }
+
+    .modal h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      color: var(--muted);
+    }
+
+    .modal button {
+      background: var(--accent);
+      color: var(--text);
+      width: 100%;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+      .stamp {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <h1>House Un-American Activities Committee</h1>
+      <div class="stats">
+        <div class="score">CLEARED: <span id="score-val">0</span></div>
+        <div class="strikes">STRIKES: <span id="strike-val">0</span>/3</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="panel rulebook">
+        <h2>Official Directives</h2>
+        <p style="margin-bottom: 15px; font-size: 0.85rem; color: var(--muted);">Review the suspect's file. Any deviation from protocol is grounds for detention.</p>
+        <ul>
+          <li><strong>Directive #1:</strong> Subjects found in possession of unauthorized foreign literature or media must be DETAINED.</li>
+          <li><strong>Directive #2:</strong> Subjects who have missed the mandatory Weekly Loyalty Oath are considered subversive and must be DETAINED.</li>
+          <li><strong>Directive #3:</strong> Membership in the Workers Union is permitted, UNLESS the subject also has documented foreign contacts. If both exist, they must be DETAINED.</li>
+          <li><strong>Directive #4:</strong> All other subjects are considered Loyal Citizens and must be CLEARED.</li>
+        </ul>
+      </div>
+
+      <div class="panel file">
+        <div id="stamp" class="stamp">DETAINED</div>
+        
+        <h2>Subject File: <span id="s-id">#0000</span></h2>
+        
+        <div class="suspect-photo">
+          <span id="s-icon">👤</span>
+        </div>
+
+        <div class="data-row">
+          <div class="data-label">Name</div>
+          <div class="data-value" id="s-name">John Doe</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Age</div>
+          <div class="data-value" id="s-age">35</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Occupation</div>
+          <div class="data-value" id="s-job">Clerk</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Oath Status</div>
+          <div class="data-value" id="s-oath">Attended</div>
+        </div>
+
+        <div class="notes-section">
+          <h3>Inspector Notes & Belongings</h3>
+          <ul class="notes-list" id="s-notes">
+            <li>Standard briefcase</li>
+            <li>Bus pass</li>
+          </ul>
+        </div>
+
+        <div class="transcript-section">
+          <h3>Interrogation Transcript</h3>
+          <p id="s-transcript" class="transcript-text">Subject was cooperative. Expressed standard loyalist sentiments.</p>
+        </div>
+
+        <div class="controls">
+          <button class="btn-clear" onclick="submitVerdict('clear')">CLEAR Subject</button>
+          <button class="btn-detain" onclick="submitVerdict('detain')">DETAIN Subject</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Start Modal -->
+  <div id="start-modal" class="modal-overlay">
+    <div class="modal">
+      <h1>Loyalty Lockdown</h1>
+      <p>Welcome, Inspector. The state depends on your vigilance. Review the files. Root out the subversives. Three mistakes and you will be the one interrogated.</p>
+      <button onclick="startGame()">Commence Shift</button>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="game-over-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h1>Shift Terminated</h1>
+      <p id="game-over-reason">You have accumulated 3 strikes. Guards are on their way to escort you to the Ministry of Truth.</p>
+      <h2 style="color: var(--text); margin-bottom: 20px;">Final Score: <span id="final-score" style="color: var(--good)">0</span></h2>
+      <button onclick="resetGame()">Start New Shift</button>
+    </div>
+  </div>
+
+  <script>
+    // --- Data Pools ---
+    const firstNames = ["Arthur", "Betty", "Charles", "Dorothy", "Edward", "Florence", "George", "Helen", "Irving", "Josephine", "Karl", "Lucille", "Walter", "Margaret"];
+    const lastNames = ["Smith", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Wilson", "Martinez", "Anderson", "Taylor", "Thomas", "Moore", "Ivanov"];
+    const jobs = ["Factory Worker", "Teacher", "Clerk", "Engineer", "Journalist", "Mechanic", "Baker", "Accountant", "Librarian"];
+    const safeBelongings = ["Bus pass", "Apple", "Spectacles", "Pack of cigarettes", "Pocket watch", "Family photograph", "Umbrella", "Standard briefcase", "Loyalty Pin"];
+    
+    // Triggers based on directives
+    const foreignItems = ["Russian Dictionary", "Unmarked shortwave radio", "Translated manifestos", "Foreign currency"];
+    
+    // --- Transcript Data Pools ---
+    const intros = [
+      "Subject appeared nervous during initial questioning.",
+      "Subject was cooperative and polite, maintaining eye contact.",
+      "Subject displayed mild irritation at the delay.",
+      "Subject was sweating profusely when sitting down.",
+      "Subject greeted the inspector with the official state salute."
+    ];
+    
+    const backgrounds = [
+      "Records show a lifetime of employment in the agricultural sector.",
+      "Subject transferred from a rural manufacturing plant last year.",
+      "Subject comes from a family of decorated state loyalists.",
+      "Subject has a clean record, previously serving in the 4th Infantry.",
+      "Subject lives in the outer sectors, commuting daily."
+    ];
+    
+    const historicalTakes = [
+      "When asked about the Depression, subject stated the government should have provided more direct relief.",
+      "Subject fondly recalled the Soviet alliance during the war, expressing confusion over current hostilities.",
+      "Praised the state's swift action and work programs during the economic crisis of the 30s.",
+      "Expressed regret that the wartime alliance with the Soviets didn't last, calling them 'misunderstood'.",
+      "Felt the government's intervention during the Depression was insufficient for the working class.",
+      "Adamantly denounced our former Soviet allies as 'deceitful opportunists' during the war.",
+      "Argued that the state's intervention during the Depression saved their family farm.",
+      "Lamented the current geopolitical climate, wishing for a return to the 'united front' of the war years.",
+      "Stated that the struggles of the Depression built character and weeded out the weak."
+    ];
+    
+    const loyalTakes = [
+      "When prompted on politics, subject expressed unwavering support for the new Five-Year Plan.",
+      "Subject proudly mentioned volunteering to clean the local Loyalty Monument on weekends.",
+      "Subject recited the State Anthem perfectly when asked for a political statement.",
+      "Subject expressed disdain for 'subversive elements' slowing down factory quotas.",
+      "Subject asked for extra shifts to 'better serve the glorious state'."
+    ];
+
+    // --- Game State ---
+    let score = 0;
+    let strikes = 0;
+    let currentSuspect = null;
+    let isProcessing = false;
+
+    // --- DOM Elements ---
+    const scoreEl = document.getElementById("score-val");
+    const strikeEl = document.getElementById("strike-val");
+    const sIdEl = document.getElementById("s-id");
+    const sNameEl = document.getElementById("s-name");
+    const sAgeEl = document.getElementById("s-age");
+    const sJobEl = document.getElementById("s-job");
+    const sOathEl = document.getElementById("s-oath");
+    const sNotesEl = document.getElementById("s-notes");
+    const sTranscriptEl = document.getElementById("s-transcript");
+    const stampEl = document.getElementById("stamp");
+    const startModal = document.getElementById("start-modal");
+    const gameOverModal = document.getElementById("game-over-modal");
+
+    // --- Logic ---
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateSuspect() {
+      // Base attributes
+      const suspect = {
+        id: "#" + getRandomInt(1000, 9999),
+        name: `${getRandomItem(firstNames)} ${getRandomItem(lastNames)}`,
+        age: getRandomInt(20, 65),
+        job: getRandomItem(jobs),
+        missedOath: false,
+        hasForeignMedia: false,
+        isUnionMember: false,
+        hasForeignContacts: false,
+        belongings: [],
+        trueStatus: 'clear' // Defaults to clear
+      };
+
+      // Determine traits probabilistically
+      const rand = Math.random();
+      
+      // 20% chance to have missed oath
+      if (Math.random() < 0.2) suspect.missedOath = true;
+      
+      // 20% chance for foreign media
+      if (Math.random() < 0.2) suspect.hasForeignMedia = true;
+
+      // 30% chance union member
+      if (Math.random() < 0.3) suspect.isUnionMember = true;
+
+      // 25% chance foreign contacts
+      if (Math.random() < 0.25) suspect.hasForeignContacts = true;
+
+      // Evaluate True Status based on Directives
+      if (suspect.hasForeignMedia) {
+        suspect.trueStatus = 'detain';
+      } else if (suspect.missedOath) {
+        suspect.trueStatus = 'detain';
+      } else if (suspect.isUnionMember && suspect.hasForeignContacts) {
+        suspect.trueStatus = 'detain';
+      }
+
+      // Generate UI Notes/Belongings based on traits
+      let numSafeItems = getRandomInt(1, 3);
+      let shuffledSafe = [...safeBelongings].sort(() => 0.5 - Math.random());
+      suspect.belongings = shuffledSafe.slice(0, numSafeItems);
+
+      if (suspect.hasForeignMedia) {
+        suspect.belongings.push(getRandomItem(foreignItems));
+      }
+
+      let notes = [];
+      if (suspect.isUnionMember) notes.push("Carries Workers Union ID card.");
+      if (suspect.hasForeignContacts) notes.push("Recent telegrams to overseas address.");
+      
+      // Combine notes and belongings for display
+      suspect.displayNotes = [...notes, ...suspect.belongings.map(b => "Found: " + b)];
+
+      // Shuffle display notes
+      suspect.displayNotes.sort(() => 0.5 - Math.random());
+
+      // --- Generate Transcript Narrative ---
+      let tIntro = getRandomItem(intros);
+      let tBg = getRandomItem(backgrounds);
+      let tHistory = Math.random() > 0.2 ? getRandomItem(historicalTakes) : ""; // 80% chance to include a historical take
+      let tSpecific = "";
+
+      if (suspect.isUnionMember && suspect.hasForeignContacts) {
+        tSpecific = "Interrogation revealed deep involvement with the Workers Union. We intercepted recent telegrams coordinating strike tactics with overseas agitators. Subject became hostile when confronted.";
+      } else if (suspect.hasForeignMedia) {
+        tSpecific = "Subject gave contradictory stories about the origin of the foreign materials found in their possession. Kept asking about 'alternative socio-economic structures' during the interview.";
+      } else if (suspect.missedOath) {
+        tSpecific = "When pressed about missing the mandatory Weekly Loyalty Oath, subject offered a flimsy excuse about oversleeping. Showed a concerning lack of patriotic fervor and rolled their eyes.";
+      } else if (suspect.isUnionMember) {
+        tSpecific = "Subject confirmed active membership in the Workers Union. Claims involvement is strictly to discuss local factory safety conditions. No foreign correspondence detected.";
+      } else if (suspect.hasForeignContacts) {
+        tSpecific = "Subject admitted to writing letters to an aunt across the border. Content appears mundane, mostly discussing the weather and recipes. Reminded subject of state monitoring protocols.";
+      } else {
+        tSpecific = getRandomItem(loyalTakes);
+      }
+
+      suspect.transcript = `${tIntro} ${tBg} ${tHistory} ${tSpecific}`.replace(/\s+/g, ' ').trim();
+
+      return suspect;
+    }
+
+    function renderSuspect(suspect) {
+      sIdEl.innerText = suspect.id;
+      sNameEl.innerText = suspect.name;
+      sAgeEl.innerText = suspect.age;
+      sJobEl.innerText = suspect.job;
+      
+      if (suspect.missedOath) {
+        sOathEl.innerText = "MISSED";
+        sOathEl.style.color = "var(--bad)";
+      } else {
+        sOathEl.innerText = "Attended";
+        sOathEl.style.color = "var(--good)";
+      }
+
+      sNotesEl.innerHTML = "";
+      if (suspect.displayNotes.length === 0) {
+        sNotesEl.innerHTML = "<li>No notable items or remarks.</li>";
+      } else {
+        suspect.displayNotes.forEach(note => {
+          const li = document.createElement("li");
+          li.innerText = note;
+          sNotesEl.appendChild(li);
+        });
+      }
+
+      // Inject generated transcript
+      sTranscriptEl.innerText = suspect.transcript;
+    }
+
+    function startGame() {
+      startModal.classList.add("hidden");
+      score = 0;
+      strikes = 0;
+      updateStatsUI();
+      nextSuspect();
+    }
+
+    function resetGame() {
+      gameOverModal.classList.add("hidden");
+      startGame();
+    }
+
+    function nextSuspect() {
+      stampEl.classList.remove("show");
+      currentSuspect = generateSuspect();
+      renderSuspect(currentSuspect);
+      isProcessing = false;
+    }
+
+    function updateStatsUI() {
+      scoreEl.innerText = score;
+      strikeEl.innerText = strikes;
+    }
+
+    function submitVerdict(verdict) {
+      if (isProcessing || !currentSuspect) return;
+      isProcessing = true;
+
+      // Show Stamp
+      stampEl.className = "stamp"; // reset classes
+      if (verdict === 'clear') {
+        stampEl.innerText = "CLEARED";
+        stampEl.classList.add("stamp-cleared");
+      } else {
+        stampEl.innerText = "DETAINED";
+        stampEl.classList.add("stamp-detained");
+      }
+      stampEl.classList.add("show");
+
+      // Check logic
+      setTimeout(() => {
+        if (verdict === currentSuspect.trueStatus) {
+          // Correct
+          score++;
+          updateStatsUI();
+          nextSuspect();
+        } else {
+          // Incorrect
+          strikes++;
+          updateStatsUI();
+          
+          if (strikes >= 3) {
+            handleGameOver();
+          } else {
+            // Flash screen red briefly
+            document.body.style.backgroundColor = "var(--bad)";
+            setTimeout(() => {
+              document.body.style.backgroundColor = "var(--bg)";
+              nextSuspect();
+            }, 300);
+          }
+        }
+      }, 1000); // Wait for stamp animation
+    }
+
+    function handleGameOver() {
+      document.body.style.backgroundColor = "var(--bg)";
+      document.getElementById("final-score").innerText = score;
+      gameOverModal.classList.remove("hidden");
+    }
+
+  </script>
+</body>
+</html>
