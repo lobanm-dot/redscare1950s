@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Red Scare: Loyalty Lockdown</title>
+  <title>HUAC: The Red Scare</title>
   <style>
     :root {
-      --bg: #08101f;
-      --panel: #121b33;
-      --panel2: #1b2748;
-      --panel3: #0f1730;
-      --text: #f3f6ff;
-      --muted: #b6c2e3;
-      --accent: #ff5c5c;
-      --accent2: #ffd166;
-      --good: #61d095;
-      --bad: #ef476f;
+      --bg: #1a1a1a;
+      --panel: #2d2d2d;
+      --panel2: #3d3d3d;
+      --panel3: #121212;
+      --text: #e0e0e0;
+      --muted: #a0a0a0;
+      --accent: #d32f2f;
+      --accent2: #ffb300;
+      --good: #4caf50;
+      --bad: #f44336;
     }
 
     * {
@@ -44,7 +44,7 @@
       left: 0;
       bottom: 0;
       right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 999;
       background-size: 100% 2px, 3px 100%;
       pointer-events: none;
@@ -52,7 +52,7 @@
 
     .app-container {
       width: 100%;
-      max-width: 1000px;
+      max-width: 1100px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -61,10 +61,11 @@
     }
 
     header {
-      background-color: var(--panel2);
+      background-color: #f4f1ea;
+      color: #333;
       padding: 15px 25px;
-      border-radius: 8px;
-      border-bottom: 4px solid var(--accent);
+      border-radius: 4px;
+      border-bottom: 8px double #333;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -72,149 +73,165 @@
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
+      letter-spacing: 1px;
+      font-weight: 900;
     }
 
     .stats {
       display: flex;
       gap: 20px;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .strikes { color: var(--bad); }
-    .score { color: var(--good); }
+    .score { color: #2e7d32; }
 
     main {
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 350px 1fr;
       gap: 20px;
     }
 
     .panel {
-      background-color: var(--panel);
-      border-radius: 8px;
+      background-color: #f4f1ea;
+      color: #222;
+      border-radius: 2px;
       padding: 25px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      border: 1px solid var(--panel3);
+      box-shadow: 5px 5px 0px #000;
+      border: 1px solid #ccc;
     }
 
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 15px;
-      color: var(--accent2);
-      border-bottom: 1px solid var(--panel2);
+      color: #000;
+      border-bottom: 2px solid #333;
       padding-bottom: 5px;
+      text-transform: uppercase;
     }
 
-    /* Rulebook styles */
     .rulebook {
-      border-left: 4px solid var(--accent2);
+      border-left: 10px solid #333;
     }
-    
+
     .rulebook ul {
       list-style-type: none;
     }
 
     .rulebook li {
-      margin-bottom: 15px;
-      background-color: var(--panel3);
+      margin-bottom: 12px;
+      background-color: #e9e5d8;
       padding: 10px;
-      border-radius: 4px;
-      border-left: 2px solid var(--muted);
-      font-size: 0.9rem;
+      border: 1px solid #d1ccbc;
+      font-size: 0.85rem;
     }
 
     /* File styles */
     .file {
-      border-top: 4px solid var(--muted);
       position: relative;
-      min-height: 400px;
+      min-height: 500px;
       display: flex;
       flex-direction: column;
+      background-image: radial-gradient(#dcd8c9 1px, transparent 1px);
+      background-size: 20px 20px;
     }
 
     .suspect-photo {
-      width: 120px;
-      height: 140px;
-      background-color: var(--panel3);
-      border: 2px solid var(--muted);
+      width: 130px;
+      height: 150px;
+      background-color: #333;
+      border: 4px solid #fff;
       float: right;
       margin: 0 0 15px 15px;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: var(--muted);
+      color: #fff;
       font-size: 3rem;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
 
     .data-row {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: flex;
-      border-bottom: 1px dotted var(--panel2);
+      border-bottom: 1px solid #ccc;
     }
 
     .data-label {
-      width: 150px;
-      color: var(--muted);
+      width: 160px;
+      color: #666;
       text-transform: uppercase;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
+      font-weight: bold;
     }
 
     .data-value {
       font-weight: bold;
       flex-grow: 1;
+      color: #000;
     }
 
     .notes-section {
       margin-top: 20px;
-      background-color: var(--panel3);
+      background-color: rgba(0,0,0,0.05);
       padding: 15px;
-      border-radius: 4px;
-      flex-grow: 1;
+      border: 1px dashed #999;
+      flex-grow: 0;
     }
 
     .notes-section h3 {
-      font-size: 1rem;
-      color: var(--muted);
+      font-size: 0.9rem;
+      color: #444;
       margin-bottom: 10px;
       text-transform: uppercase;
+      text-decoration: underline;
     }
 
     .notes-list {
-      list-style-type: square;
-      margin-left: 20px;
+      list-style-type: none;
+      font-size: 0.9rem;
     }
 
     .notes-list li {
       margin-bottom: 5px;
-      color: var(--accent2);
+      color: #222;
     }
 
     .transcript-section {
       margin-top: 15px;
-      background-color: #0c1222;
+      background-color: #fff;
       padding: 15px;
-      border-radius: 4px;
-      border-left: 3px solid var(--muted);
+      border: 1px solid #000;
       font-family: 'Courier New', Courier, monospace;
       flex-grow: 1;
+      position: relative;
+    }
+
+    .transcript-section::before {
+      content: "TOP SECRET";
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      color: rgba(211, 47, 47, 0.2);
+      font-weight: bold;
+      transform: rotate(5deg);
     }
 
     .transcript-section h3 {
-      font-size: 0.95rem;
-      color: var(--muted);
+      font-size: 0.85rem;
+      color: #d32f2f;
       margin-bottom: 8px;
       text-transform: uppercase;
+      border-bottom: 1px solid #d32f2f;
     }
 
     .transcript-text {
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      font-style: italic;
+      font-size: 0.85rem;
+      color: #111;
+      white-space: pre-wrap;
     }
 
     /* Controls */
@@ -226,78 +243,71 @@
 
     button {
       flex: 1;
-      padding: 15px;
+      padding: 12px;
       font-family: inherit;
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: bold;
       text-transform: uppercase;
-      border: none;
-      border-radius: 4px;
+      border: 2px solid #000;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 0 rgba(0,0,0,0.3);
-    }
-
-    button:active {
-      transform: translateY(4px);
-      box-shadow: none;
+      transition: all 0.1s ease;
     }
 
     .btn-clear {
-      background-color: var(--good);
-      color: var(--bg);
+      background-color: #fff;
+      color: #000;
     }
 
     .btn-clear:hover {
-      background-color: #7af0b1;
+      background-color: #eee;
     }
 
     .btn-detain {
-      background-color: var(--bad);
-      color: var(--text);
+      background-color: #000;
+      color: #fff;
     }
 
     .btn-detain:hover {
-      background-color: #ff5c81;
+      background-color: #333;
     }
 
     /* Stamp Animation */
     .stamp {
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg) scale(2);
+      transform: translate(-50%, -50%) rotate(-15deg) scale(3);
       font-size: 4rem;
       font-weight: bold;
-      border: 8px solid;
-      padding: 10px 20px;
-      border-radius: 10px;
+      border: 12px solid;
+      padding: 10px 30px;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 10;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      text-transform: uppercase;
     }
 
     .stamp.show {
       transform: translate(-50%, -50%) rotate(-15deg) scale(1);
-      opacity: 1;
+      opacity: 0.8;
     }
 
     .stamp-cleared {
-      color: var(--good);
-      border-color: var(--good);
+      color: #2e7d32;
+      border-color: #2e7d32;
     }
 
     .stamp-detained {
-      color: var(--bad);
-      border-color: var(--bad);
+      color: #d32f2f;
+      border-color: #d32f2f;
     }
 
     /* Modals */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(8, 16, 31, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -305,43 +315,43 @@
     }
 
     .modal {
-      background: var(--panel);
+      background: #f4f1ea;
+      color: #222;
       padding: 40px;
-      border-radius: 8px;
+      border-radius: 2px;
       text-align: center;
-      border: 2px solid var(--accent);
-      max-width: 500px;
-      box-shadow: 0 0 30px rgba(255, 92, 92, 0.3);
+      border: 5px solid #333;
+      max-width: 600px;
     }
 
     .modal h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #d32f2f;
+      border-bottom: 4px solid #d32f2f;
     }
 
     .modal p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 25px;
-      color: var(--muted);
+      text-align: justify;
     }
 
     .modal button {
-      background: var(--accent);
-      color: var(--text);
+      background: #000;
+      color: #fff;
       width: 100%;
+      padding: 20px;
+      font-size: 1.2rem;
     }
 
     .hidden {
       display: none !important;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       main {
         grid-template-columns: 1fr;
-      }
-      .stamp {
-        font-size: 3rem;
       }
     }
   </style>
@@ -350,68 +360,66 @@
 
   <div class="app-container">
     <header>
-      <h1>House Un-American Activities Committee</h1>
+      <h1>HUAC: COMMITTEE ON UN-AMERICAN ACTIVITIES</h1>
       <div class="stats">
-        <div class="score">CLEARED: <span id="score-val">0</span></div>
-        <div class="strikes">STRIKES: <span id="strike-val">0</span>/3</div>
+        <div class="score">CITIZENS CLEARED: <span id="score-val">0</span></div>
+        <div class="strikes">DEMERITS: <span id="strike-val">0</span>/3</div>
       </div>
     </header>
 
     <main>
       <div class="panel rulebook">
-        <h2>Official Directives</h2>
-        <p style="margin-bottom: 15px; font-size: 0.85rem; color: var(--muted);">Review the suspect's file. Any deviation from protocol is grounds for detention.</p>
+        <h2>Subversive Identification</h2>
+        <p style="margin-bottom: 15px; font-size: 0.8rem; color: #555; font-style: italic;">Reference: Internal Security Act of 1950. Identify and blacklist agents of international communism.</p>
         <ul>
-          <li><strong>Directive #1:</strong> Subjects found in possession of unauthorized foreign literature or media must be DETAINED.</li>
-          <li><strong>Directive #2:</strong> Subjects who have missed the mandatory Weekly Loyalty Oath are considered subversive and must be DETAINED.</li>
-          <li><strong>Directive #3:</strong> Membership in the Workers Union is permitted, UNLESS the subject also has documented foreign contacts. If both exist, they must be DETAINED.</li>
-          <li><strong>Directive #4:</strong> All other subjects are considered Loyal Citizens and must be CLEARED.</li>
+          <li><strong>Criteria A:</strong> Any subject in possession of "Red" literature (Marxist pamphlets, Soviet journals) must be BLACKLISTED.</li>
+          <li><strong>Criteria B:</strong> Subjects who invoked the <strong>Fifth Amendment</strong> or refused to sign the federal Loyalty Oath must be BLACKLISTED.</li>
+          <li><strong>Criteria C:</strong> Union members are permitted, BUT if the subject has <strong>Hollywood ties</strong> or <strong>Overseas Travel</strong>, they are high-risk subversives and must be BLACKLISTED.</li>
+          <li><strong>Criteria D:</strong> All others are considered "Friendly Witnesses" and should have their names CLEARED.</li>
         </ul>
       </div>
 
       <div class="panel file">
-        <div id="stamp" class="stamp">DETAINED</div>
+        <div id="stamp" class="stamp">BLACKLISTED</div>
         
-        <h2>Subject File: <span id="s-id">#0000</span></h2>
+        <h2>Subpoena File: <span id="s-id">#0000</span></h2>
         
         <div class="suspect-photo">
-          <img id="s-photo" src="" alt="Suspect" style="width: 100%; height: 100%; object-fit: cover; display: none;" onerror="this.style.display='none'; document.getElementById('s-icon').style.display='inline';" />
           <span id="s-icon">👤</span>
         </div>
 
         <div class="data-row">
-          <div class="data-label">Name</div>
-          <div class="data-value" id="s-name">John Doe</div>
+          <div class="data-label">Full Name</div>
+          <div class="data-value" id="s-name">---</div>
         </div>
         <div class="data-row">
           <div class="data-label">Age</div>
-          <div class="data-value" id="s-age">35</div>
+          <div class="data-value" id="s-age">---</div>
         </div>
         <div class="data-row">
-          <div class="data-label">Occupation</div>
-          <div class="data-value" id="s-job">Clerk</div>
+          <div class="data-label">Primary Industry</div>
+          <div class="data-value" id="s-job">---</div>
         </div>
         <div class="data-row">
-          <div class="data-label">Oath Status</div>
-          <div class="data-value" id="s-oath">Attended</div>
+          <div class="data-label">Loyalty Oath</div>
+          <div class="data-value" id="s-oath">---</div>
         </div>
 
         <div class="notes-section">
-          <h3>Inspector Notes & Belongings</h3>
+          <h3>Evidence & Field Observations</h3>
           <ul class="notes-list" id="s-notes">
-            <li>Standard briefcase</li>
-            <li>Bus pass</li>
+            <li>Loading...</li>
           </ul>
         </div>
 
         <div class="transcript-section">
-          <h3>Interrogation Transcript</h3>
-          <p id="s-transcript" class="transcript-text">Subject was cooperative. Expressed standard loyalist sentiments.</p>
+          <h3>Testimony Transcript (Executive Session)</h3>
+          <p id="s-transcript" class="transcript-text">Waiting for witness statement...</p>
         </div>
 
         <div class="controls">
-          <button class="btn-clear" onclick="submitVerdict('clear')">CLEAR Subject</button>
-          <button class="btn-detain" onclick="submitVerdict('detain')">DETAIN Subject</button>
+          <button class="btn-clear" onclick="submitVerdict('clear')">CLEAR Name</button>
+          <button class="btn-detain" onclick="submitVerdict('detain')">BLACKLIST Subject</button>
         </div>
       </div>
     </main>
@@ -420,77 +428,55 @@
   <!-- Start Modal -->
   <div id="start-modal" class="modal-overlay">
     <div class="modal">
-      <h1>Loyalty Lockdown</h1>
-      <p>Welcome, Inspector. The state depends on your vigilance. Review the files. Root out the subversives. Three mistakes and you will be the one interrogated.</p>
-      <button onclick="startGame()">Commence Shift</button>
+      <h1>THE RED MENACE</h1>
+      <p>Washington, D.C. - 1953. Communism is a parasite, and you are the surgeon. As a junior investigator for the House Un-American Activities Committee, you must review subpoenas and interrogation notes. Are they loyal Americans, or "Pinkos" trying to dismantle our way of life? Identify the subversives. Be careful—mislabeling a true patriot or letting a spy through will end your career.</p>
+      <button onclick="startGame()">Open The Hearings</button>
     </div>
   </div>
 
   <!-- Game Over Modal -->
   <div id="game-over-modal" class="modal-overlay hidden">
     <div class="modal">
-      <h1>Shift Terminated</h1>
-      <p id="game-over-reason">You have accumulated 3 strikes. Guards are on their way to escort you to the Ministry of Truth.</p>
-      <h2 style="color: var(--text); margin-bottom: 20px;">Final Score: <span id="final-score" style="color: var(--good)">0</span></h2>
-      <button onclick="resetGame()">Start New Shift</button>
+      <h1>HEARING ADJOURNED</h1>
+      <p id="game-over-reason">The FBI has noted your incompetence. Your ties to the committee have been severed, and you are now being investigated for possible sympathies to the Kremlin.</p>
+      <h2 style="color: #000; margin-bottom: 20px;">Score: <span id="final-score" style="color: #2e7d32">0</span> Subversives Exposed</h2>
+      <button onclick="resetGame()">Request New Assignment</button>
     </div>
   </div>
 
   <script>
     // --- Data Pools ---
-    const maleFirstNames = ["Arthur", "Charles", "Edward", "George", "Irving", "Karl", "Walter", "John", "William", "James", "Robert"];
-    const femaleFirstNames = ["Betty", "Dorothy", "Florence", "Helen", "Josephine", "Lucille", "Margaret", "Mary", "Ruth", "Shirley", "Alice"];
-    const lastNames = ["Smith", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Wilson", "Martinez", "Anderson", "Taylor", "Thomas", "Moore", "Ivanov"];
-    const jobs = ["Factory Worker", "Teacher", "Clerk", "Engineer", "Journalist", "Mechanic", "Baker", "Accountant", "Librarian"];
-    const safeBelongings = ["Bus pass", "Apple", "Spectacles", "Pack of cigarettes", "Pocket watch", "Family photograph", "Umbrella", "Standard briefcase", "Loyalty Pin"];
+    const maleFirstNames = ["Arthur", "Charles", "Edward", "George", "Irving", "Walter", "John", "William", "James", "Robert", "Frank", "Sidney"];
+    const femaleFirstNames = ["Betty", "Dorothy", "Florence", "Helen", "Lucille", "Margaret", "Mary", "Ruth", "Shirley", "Alice", "Ethel"];
+    const lastNames = ["Smith", "Miller", "Davis", "Wilson", "Anderson", "Taylor", "Thomas", "Moore", "Levine", "Rosenberg", "McCarthy", "Trumbo"];
+    const jobs = ["Screenwriter", "Factory Foreman", "School Teacher", "Radio Host", "Steel Worker", "Librarian", "Journalist", "Civil Servant"];
     
-    // Triggers based on directives
-    const foreignItems = ["Russian Dictionary", "Unmarked shortwave radio", "Translated manifestos", "Foreign currency"];
+    const safeItems = ["Chesterfield cigarettes", "Copy of The Saturday Evening Post", "Life Magazine", "Family Bible", "Union dues receipt", "Draft card", "World War II Victory Medal", "Library card"];
+    const redItems = ["'The Communist Manifesto' (Pocket Edition)", "Pamphlet from the Daily Worker", "Subscription to New Masses", "Soviet-made shortwave radio", "Literature from the Civil Rights Congress"];
     
-    // --- Transcript Data Pools ---
     const intros = [
-      "Subject appeared nervous during initial questioning.",
-      "Subject was cooperative and polite, maintaining eye contact.",
-      "Subject displayed mild irritation at the delay.",
-      "Subject was sweating profusely when sitting down.",
-      "Subject greeted the inspector with the official state salute."
-    ];
-    
-    const backgrounds = [
-      "Records show a lifetime of employment in the agricultural sector.",
-      "Subject transferred from a rural manufacturing plant last year.",
-      "Subject comes from a family of decorated state loyalists.",
-      "Subject has a clean record, previously serving in the 4th Infantry.",
-      "Subject lives in the outer sectors, commuting daily."
+      "Witness appeared agitated, frequently adjusting their necktie.",
+      "Witness was calm but chose their words with extreme caution.",
+      "Subject arrived with a lawyer from the ACLU.",
+      "Witness perspired heavily under the committee's lights.",
+      "Subject was cooperative and brought a list of names to 'consult' on."
     ];
     
     const historicalTakes = [
-      "When asked about the Depression, subject stated the government should have provided more direct relief.",
-      "Subject fondly recalled the Soviet alliance during the war, expressing confusion over current hostilities.",
-      "Praised the state's swift action and work programs during the economic crisis of the 30s.",
-      "Expressed regret that the wartime alliance with the Soviets didn't last, calling them 'misunderstood'.",
-      "Felt the government's intervention during the Depression was insufficient for the working class.",
-      "Adamantly denounced our former Soviet allies as 'deceitful opportunists' during the war.",
-      "Argued that the state's intervention during the Depression saved their family farm.",
-      "Lamented the current geopolitical climate, wishing for a return to the 'united front' of the war years.",
-      "Stated that the struggles of the Depression built character and weeded out the weak."
-    ];
-    
-    const loyalTakes = [
-      "When prompted on politics, subject expressed unwavering support for the new Five-Year Plan.",
-      "Subject proudly mentioned volunteering to clean the local Loyalty Monument on weekends.",
-      "Subject recited the State Anthem perfectly when asked for a political statement.",
-      "Subject expressed disdain for 'subversive elements' slowing down factory quotas.",
-      "Subject asked for extra shifts to 'better serve the glorious state'."
+      "When asked about the Spanish Civil War, witness admitted to supporting the Republicans.",
+      "Witness stated they joined a 'study group' in 1938 but left shortly after.",
+      "Subject argued that the Bill of Rights protects their private associations.",
+      "Witness expressed confusion as to why their union membership is being questioned.",
+      "Subject refused to answer questions about their past, citing the First Amendment.",
+      "Witness proudly declared they are a 'New Deal' Democrat, not a revolutionary.",
+      "Subject admitted to attending a meeting of the 'American Friends of the Soviet Union' during the war."
     ];
 
-    // --- Game State ---
     let score = 0;
     let strikes = 0;
     let currentSuspect = null;
     let isProcessing = false;
 
-    // --- DOM Elements ---
     const scoreEl = document.getElementById("score-val");
     const strikeEl = document.getElementById("strike-val");
     const sIdEl = document.getElementById("s-id");
@@ -501,144 +487,95 @@
     const sNotesEl = document.getElementById("s-notes");
     const sTranscriptEl = document.getElementById("s-transcript");
     const stampEl = document.getElementById("stamp");
-    const startModal = document.getElementById("start-modal");
-    const gameOverModal = document.getElementById("game-over-modal");
-    const sPhotoEl = document.getElementById("s-photo");
-    const sIconEl = document.getElementById("s-icon");
 
-    // --- Logic ---
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function getRandomItem(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+    function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     function generateSuspect() {
-      const isMale = Math.random() > 0.5;
-      const genderStr = isMale ? "male" : "female";
+      const isMale = Math.random() > 0.4;
       const firstName = isMale ? getRandomItem(maleFirstNames) : getRandomItem(femaleFirstNames);
-      const imgNum = getRandomInt(1, 5); // Assumes you have images 1 through 5. Change '5' if you have more!
-
-      // Base attributes
+      
       const suspect = {
         id: "#" + getRandomInt(1000, 9999),
         name: `${firstName} ${getRandomItem(lastNames)}`,
-        age: getRandomInt(20, 65),
+        age: getRandomInt(25, 60),
         job: getRandomItem(jobs),
-        imageSrc: `${genderStr}${imgNum}.png`,
-        missedOath: false,
-        hasForeignMedia: false,
+        refusedOath: false,
+        hasRedLiterature: false,
         isUnionMember: false,
-        hasForeignContacts: false,
-        belongings: [],
-        trueStatus: 'clear' // Defaults to clear
+        hasHollywoodTies: false,
+        hasOverseasTravel: false,
+        trueStatus: 'clear'
       };
 
-      // Determine traits probabilistically
-      const rand = Math.random();
-      
-      // 20% chance to have missed oath
-      if (Math.random() < 0.2) suspect.missedOath = true;
-      
-      // 20% chance for foreign media
-      if (Math.random() < 0.2) suspect.hasForeignMedia = true;
+      // Determine Traits
+      if (Math.random() < 0.2) suspect.refusedOath = true;
+      if (Math.random() < 0.2) suspect.hasRedLiterature = true;
+      if (Math.random() < 0.35) suspect.isUnionMember = true;
+      if (Math.random() < 0.25) suspect.hasHollywoodTies = (suspect.job === "Screenwriter" || suspect.job === "Radio Host" || Math.random() < 0.1);
+      if (Math.random() < 0.2) suspect.hasOverseasTravel = true;
 
-      // 30% chance union member
-      if (Math.random() < 0.3) suspect.isUnionMember = true;
-
-      // 25% chance foreign contacts
-      if (Math.random() < 0.25) suspect.hasForeignContacts = true;
-
-      // Evaluate True Status based on Directives
-      if (suspect.hasForeignMedia) {
+      // Evaluation Logic
+      if (suspect.hasRedLiterature || suspect.refusedOath) {
         suspect.trueStatus = 'detain';
-      } else if (suspect.missedOath) {
-        suspect.trueStatus = 'detain';
-      } else if (suspect.isUnionMember && suspect.hasForeignContacts) {
+      } else if (suspect.isUnionMember && (suspect.hasHollywoodTies || suspect.hasOverseasTravel)) {
         suspect.trueStatus = 'detain';
       }
 
-      // Generate UI Notes/Belongings based on traits
-      let numSafeItems = getRandomInt(1, 3);
-      let shuffledSafe = [...safeBelongings].sort(() => 0.5 - Math.random());
-      suspect.belongings = shuffledSafe.slice(0, numSafeItems);
-
-      if (suspect.hasForeignMedia) {
-        suspect.belongings.push(getRandomItem(foreignItems));
-      }
-
-      let notes = [];
-      if (suspect.isUnionMember) notes.push("Carries Workers Union ID card.");
-      if (suspect.hasForeignContacts) notes.push("Recent telegrams to overseas address.");
+      // UI Notes
+      let items = [];
+      let numSafe = getRandomInt(1, 2);
+      for(let i=0; i<numSafe; i++) items.push(getRandomItem(safeItems));
       
-      // Combine notes and belongings for display
-      suspect.displayNotes = [...notes, ...suspect.belongings.map(b => "Found: " + b)];
+      if (suspect.hasRedLiterature) items.push(getRandomItem(redItems));
+      if (suspect.hasHollywoodTies) items.push("Photo found with known blacklisted directors.");
+      if (suspect.hasOverseasTravel) items.push("Passport shows stamps from Paris and East Berlin.");
+      if (suspect.isUnionMember) items.push("Industrial Workers of the World (IWW) card.");
 
-      // Shuffle display notes
+      suspect.displayNotes = items.map(i => "OBSERVED: " + i);
       suspect.displayNotes.sort(() => 0.5 - Math.random());
 
-      // --- Generate Transcript Narrative ---
+      // Transcript Narrative
       let tIntro = getRandomItem(intros);
-      let tBg = getRandomItem(backgrounds);
-      let tHistory = Math.random() > 0.2 ? getRandomItem(historicalTakes) : ""; // 80% chance to include a historical take
+      let tHistory = getRandomItem(historicalTakes);
       let tSpecific = "";
 
-      if (suspect.isUnionMember && suspect.hasForeignContacts) {
-        tSpecific = "Interrogation revealed deep involvement with the Workers Union. We intercepted recent telegrams coordinating strike tactics with overseas agitators. Subject became hostile when confronted.";
-      } else if (suspect.hasForeignMedia) {
-        tSpecific = "Subject gave contradictory stories about the origin of the foreign materials found in their possession. Kept asking about 'alternative socio-economic structures' during the interview.";
-      } else if (suspect.missedOath) {
-        tSpecific = "When pressed about missing the mandatory Weekly Loyalty Oath, subject offered a flimsy excuse about oversleeping. Showed a concerning lack of patriotic fervor and rolled their eyes.";
+      if (suspect.refusedOath) {
+        tSpecific = "When presented with the Loyalty Oath, witness stated: 'I stand on the Fifth Amendment to the Constitution.' Refused to divulge names of associates.";
+      } else if (suspect.hasRedLiterature) {
+        tSpecific = "Subject claims they only read the Marxist materials for 'academic curiosity.' When asked to denounce the Soviet Union, they remained silent.";
+      } else if (suspect.isUnionMember && suspect.hasHollywoodTies) {
+        tSpecific = "Witness admitted to participating in the 1945 Hollywood strikes. Expressed sympathy for the 'Hollywood Ten' who were cited for contempt.";
       } else if (suspect.isUnionMember) {
-        tSpecific = "Subject confirmed active membership in the Workers Union. Claims involvement is strictly to discuss local factory safety conditions. No foreign correspondence detected.";
-      } else if (suspect.hasForeignContacts) {
-        tSpecific = "Subject admitted to writing letters to an aunt across the border. Content appears mundane, mostly discussing the weather and recipes. Reminded subject of state monitoring protocols.";
+        tSpecific = "Witness spoke at length about collective bargaining. Stated they believe in the 'American Dream' but wants better pay for factory hands.";
       } else {
-        tSpecific = getRandomItem(loyalTakes);
+        tSpecific = "Witness stated: 'I am a loyal American. I abhor the Soviet system and have never been a member of any party aiming to overthrow this government.'";
       }
 
-      suspect.transcript = `${tIntro} ${tBg} ${tHistory} ${tSpecific}`.replace(/\s+/g, ' ').trim();
-
+      suspect.transcript = `${tIntro}\n\n${tHistory}\n\n${tSpecific}`;
       return suspect;
     }
 
     function renderSuspect(suspect) {
-      sPhotoEl.src = suspect.imageSrc;
-      sPhotoEl.style.display = "block";
-      sIconEl.style.display = "none";
-      
       sIdEl.innerText = suspect.id;
       sNameEl.innerText = suspect.name;
       sAgeEl.innerText = suspect.age;
       sJobEl.innerText = suspect.job;
-      
-      if (suspect.missedOath) {
-        sOathEl.innerText = "MISSED";
-        sOathEl.style.color = "var(--bad)";
-      } else {
-        sOathEl.innerText = "Attended";
-        sOathEl.style.color = "var(--good)";
-      }
+      sOathEl.innerText = suspect.refusedOath ? "REFUSED / INVOKED 5TH" : "SIGNED & SWORN";
+      sOathEl.style.color = suspect.refusedOath ? "var(--bad)" : "#2e7d32";
 
       sNotesEl.innerHTML = "";
-      if (suspect.displayNotes.length === 0) {
-        sNotesEl.innerHTML = "<li>No notable items or remarks.</li>";
-      } else {
-        suspect.displayNotes.forEach(note => {
-          const li = document.createElement("li");
-          li.innerText = note;
-          sNotesEl.appendChild(li);
-        });
-      }
+      suspect.displayNotes.forEach(note => {
+        const li = document.createElement("li");
+        li.innerText = note;
+        sNotesEl.appendChild(li);
+      });
 
-      // Inject generated transcript
       sTranscriptEl.innerText = suspect.transcript;
     }
 
     function startGame() {
-      startModal.classList.add("hidden");
+      document.getElementById("start-modal").classList.add("hidden");
       score = 0;
       strikes = 0;
       updateStatsUI();
@@ -646,7 +583,7 @@
     }
 
     function resetGame() {
-      gameOverModal.classList.add("hidden");
+      document.getElementById("game-over-modal").classList.add("hidden");
       startGame();
     }
 
@@ -666,49 +603,41 @@
       if (isProcessing || !currentSuspect) return;
       isProcessing = true;
 
-      // Show Stamp
-      stampEl.className = "stamp"; // reset classes
+      stampEl.className = "stamp";
       if (verdict === 'clear') {
         stampEl.innerText = "CLEARED";
         stampEl.classList.add("stamp-cleared");
       } else {
-        stampEl.innerText = "DETAINED";
+        stampEl.innerText = "BLACKLIST";
         stampEl.classList.add("stamp-detained");
       }
       stampEl.classList.add("show");
 
-      // Check logic
       setTimeout(() => {
         if (verdict === currentSuspect.trueStatus) {
-          // Correct
           score++;
           updateStatsUI();
           nextSuspect();
         } else {
-          // Incorrect
           strikes++;
           updateStatsUI();
-          
           if (strikes >= 3) {
             handleGameOver();
           } else {
-            // Flash screen red briefly
-            document.body.style.backgroundColor = "var(--bad)";
+            document.body.style.backgroundColor = "#d32f2f";
             setTimeout(() => {
               document.body.style.backgroundColor = "var(--bg)";
               nextSuspect();
             }, 300);
           }
         }
-      }, 1000); // Wait for stamp animation
+      }, 800);
     }
 
     function handleGameOver() {
-      document.body.style.backgroundColor = "var(--bg)";
       document.getElementById("final-score").innerText = score;
-      gameOverModal.classList.remove("hidden");
+      document.getElementById("game-over-modal").classList.remove("hidden");
     }
-
   </script>
 </body>
 </html>
